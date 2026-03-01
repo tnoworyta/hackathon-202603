@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -17,7 +18,6 @@ import {
   BaseResponse,
   nullResponse,
   StringSchema,
-  UUIDSchema,
 } from "src/common";
 import {
   UpdateUserBody,
@@ -101,7 +101,7 @@ export class UsersController {
   @Validate({
     response: baseResponse(commonUserSchema),
     request: [
-      { type: "param", name: "id", schema: UUIDSchema },
+      { type: "param", name: "id", schema: StringSchema },
       { type: "body", schema: updateUserSchema },
     ],
   })
@@ -110,21 +110,47 @@ export class UsersController {
     @Body() data: UpdateUserBody,
     @Session() session: UserSession,
   ): Promise<BaseResponse<Static<typeof commonUserSchema>>> {
-    {
-      if (session.user.id !== id) {
-        throw new ForbiddenException("You can only update your own account");
-      }
+    const isAdmin = session.user.role === "admin";
+    const isOwnUser = session.user.id === id;
 
-      const updatedUser = await this.usersService.updateUser(id, data);
-
-      return new BaseResponse(updatedUser);
+    if (!isOwnUser && !isAdmin) {
+      throw new ForbiddenException("You can only update your own account");
     }
+
+    if (!isAdmin) {
+      if (data.banned !== undefined || data.banReason !== undefined || data.banExpires !== undefined) {
+        throw new ForbiddenException("Only admins can edit ban settings");
+      }
+    }
+
+    let parsedBanExpires: Date | null | undefined = undefined;
+    if (data.banExpires !== undefined) {
+      if (data.banExpires === null) {
+        parsedBanExpires = null;
+      } else {
+        const parsedDate = new Date(data.banExpires);
+        if (Number.isNaN(parsedDate.getTime())) {
+          throw new BadRequestException("banExpires must be a valid ISO date-time string");
+        }
+        parsedBanExpires = parsedDate;
+      }
+    }
+
+    const updatedUser = await this.usersService.updateUser(id, {
+      name: data.name,
+      email: data.email,
+      banned: data.banned,
+      banReason: data.banReason,
+      banExpires: parsedBanExpires,
+    });
+
+    return new BaseResponse(updatedUser);
   }
 
   @Delete(":id")
   @Validate({
     response: nullResponse(),
-    request: [{ type: "param", name: "id", schema: UUIDSchema }],
+    request: [{ type: "param", name: "id", schema: StringSchema }],
   })
   async deleteUser(id: string, @Session() session: UserSession): Promise<null> {
     if (session.user.id !== id) {

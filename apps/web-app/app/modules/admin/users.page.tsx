@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 
 import {
   Breadcrumb,
@@ -149,13 +150,18 @@ function UsersList({ users, total }: { users: AdminUser[]; total: number }) {
             key={user.id}
             className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
           >
-            <div>
-              <p className="text-sm font-medium text-foreground">
-                {user.name || user.email || "Unnamed user"}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {user.email || "No e-mail provided"}
-              </p>
+            <div className="space-y-1">
+              <div>
+                <p className="text-sm font-medium text-foreground">
+                  {user.name || user.email || "Unnamed user"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {user.email || "No e-mail provided"}
+                </p>
+              </div>
+              <Button asChild size="sm" variant="outline">
+                <Link to={`/admin/users/${user.id}`}>Edit</Link>
+              </Button>
             </div>
             <span className="rounded-full border px-3 py-1 text-xs font-medium">
               {formatRoles(user.role)}

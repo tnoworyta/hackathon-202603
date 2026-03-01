@@ -15,7 +15,8 @@ export default [
   ]),
   layout("modules/admin/admin.layout.tsx", [
     route("admin", "modules/admin/admin.page.tsx"),
-    route("admin/users", "modules/admin/users.page.tsx")
+    route("admin/users", "modules/admin/users.page.tsx"),
+    route("admin/users/:id", "modules/admin/user-edit.page.tsx")
   ]),
   route("/.well-known/appspecific/com.chrome.devtools.json", "modules/dev/dev-null.tsx")
 ] satisfies RouteConfig;

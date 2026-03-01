@@ -12,6 +12,14 @@ import { randomUUID } from "crypto";
 import { EmailService } from "src/common/emails/emails.service";
 import { UsersAlertService } from "./users-alert.service";
 
+type UpdateUserData = {
+  name?: string;
+  email?: string;
+  banned?: boolean;
+  banReason?: string | null;
+  banExpires?: Date | null;
+};
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -68,7 +76,7 @@ export class UsersService {
     });
   }
 
-  public async updateUser(id: string, data: { email?: string }) {
+  public async updateUser(id: string, data: UpdateUserData) {
     await this.ensureUser(id);
 
     const [updatedUser] = await this.db

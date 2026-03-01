@@ -21,11 +21,10 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { Separator } from "~/components/ui/separator";
 import { SidebarTrigger } from "~/components/ui/sidebar";
 
-import type { Route } from "./+types/users.page";
 import { authClient } from "../../Auth/auth.client";
 import type { DashboardOutletContext } from "../dashboard.layout";
 
-const authMiddleware: Route.ClientMiddlewareFunction = async () => {
+const authMiddleware = async () => {
   const session = await authClient.getSession();
 
   if (!session.data) {
@@ -33,7 +32,7 @@ const authMiddleware: Route.ClientMiddlewareFunction = async () => {
   }
 };
 
-export const clientMiddleware: Route.ClientMiddlewareFunction[] = [authMiddleware];
+export const clientMiddleware = [authMiddleware];
 
 type AdminUser = {
   id: string;

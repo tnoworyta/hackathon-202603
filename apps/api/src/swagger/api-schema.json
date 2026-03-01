@@ -85,7 +85,6 @@
             "required": true,
             "in": "path",
             "schema": {
-              "format": "uuid",
               "type": "string"
             }
           }
@@ -123,7 +122,6 @@
             "required": true,
             "in": "path",
             "schema": {
-              "format": "uuid",
               "type": "string"
             }
           }
@@ -668,9 +666,37 @@
       "UpdateUserBody": {
         "type": "object",
         "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
           "email": {
             "format": "email",
             "type": "string"
+          },
+          "banned": {
+            "type": "boolean"
+          },
+          "banReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "banExpires": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         }
       },
