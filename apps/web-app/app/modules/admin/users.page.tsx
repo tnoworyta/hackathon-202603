@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -21,6 +22,13 @@ import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Separator } from "~/components/ui/separator";
 import { SidebarTrigger } from "~/components/ui/sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "~/components/ui/dropdown-menu";
 import { authClient } from "../Auth/auth.client";
 
 type AdminUser = {
@@ -29,6 +37,8 @@ type AdminUser = {
   name?: string | null;
   role?: string | string[] | null;
   image?: string | null;
+  banned?: boolean | null;
+  createdAt?: string | Date | null;
 };
 
 type AdminUsersPayload = {
@@ -144,31 +154,84 @@ function UsersList({ users, total }: { users: AdminUser[]; total: number }) {
   return (
     <div className="space-y-2">
       <p className="text-xs text-muted-foreground">Total users: {total}</p>
-      <ul className="divide-y divide-border rounded-lg border">
-        {users.map((user) => (
-          <li
-            key={user.id}
-            className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
-          >
-            <div className="space-y-1">
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  {user.name || user.email || "Unnamed user"}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {user.email || "No e-mail provided"}
-                </p>
-              </div>
-              <Button asChild size="sm" variant="outline">
-                <Link to={`/admin/users/${user.id}`}>Edit</Link>
-              </Button>
+      <div className="overflow-x-auto rounded-xl border">
+        <div className="min-w-[820px]">
+          <div className="grid grid-cols-[36px_minmax(240px,2.5fr)_minmax(140px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)_48px] items-center gap-3 bg-muted/40 px-4 py-3 text-xs font-semibold text-muted-foreground">
+            <div className="flex items-center justify-center">
+              <input type="checkbox" aria-label="Select all users" />
             </div>
-            <span className="rounded-full border px-3 py-1 text-xs font-medium">
-              {formatRoles(user.role)}
-            </span>
-          </li>
-        ))}
-      </ul>
+            <span>Name</span>
+            <span>Access</span>
+            <span>Status</span>
+            <span>Joined</span>
+            <span />
+          </div>
+          <ul className="divide-y divide-border">
+            {users.map((user) => (
+              <li
+                key={user.id}
+                className="grid grid-cols-[36px_minmax(240px,2.5fr)_minmax(140px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)_48px] items-center gap-3 px-4 py-3"
+              >
+                <div className="flex items-center justify-center">
+                  <input type="checkbox" aria-label={`Select ${user.name || user.email || user.id}`} />
+                </div>
+                <div className="flex items-center gap-3">
+                  <Avatar className="size-9 border bg-muted/60">
+                    <AvatarImage src={user.image || ""} alt={user.name || user.email || "User"} />
+                    <AvatarFallback className="text-xs font-semibold">
+                      {initials(user.name, user.email)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">
+                      {user.name || user.email || "Unnamed user"}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {user.email || "No e-mail provided"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-sm font-medium">
+                  <span>{formatAccess(user.role)}</span>
+                  <ChevronDown className="size-4 text-muted-foreground" />
+                </div>
+                <StatusPill banned={Boolean(user.banned)} />
+                <p className="text-sm text-muted-foreground">{formatJoinedDate(user.createdAt)}</p>
+                <div className="flex justify-end">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button type="button" variant="ghost" size="icon" aria-label="User actions">
+                        <MoreHorizontal className="size-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem asChild>
+                        <Link to={`/admin/users/${user.id}`}>Edit</Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatusPill({ banned }: { banned: boolean }) {
+  const isOnline = !banned;
+  const classes = isOnline
+    ? "border-emerald-200 bg-emerald-100 text-emerald-700"
+    : "border-zinc-300 bg-zinc-100 text-zinc-700";
+
+  return (
+    <div
+      className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium ${classes}`}
+    >
+      <span className={`size-2 rounded-full ${isOnline ? "bg-emerald-500" : "bg-zinc-500"}`} />
+      <span>{isOnline ? "Online" : "Offline"}</span>
     </div>
   );
 }
@@ -221,13 +284,22 @@ function UsersSkeleton() {
       {Array.from({ length: 5 }).map((_, index) => (
         <div
           key={index}
-          className="flex items-center justify-between gap-3 rounded-lg border px-4 py-3"
+          className="grid grid-cols-[36px_minmax(240px,2.5fr)_minmax(140px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)_48px] items-center gap-3 rounded-lg border px-4 py-3"
         >
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-1/3" />
-            <Skeleton className="h-3 w-1/2" />
+          <Skeleton className="size-4" />
+          <div className="flex items-center gap-3">
+            <Skeleton className="size-9 rounded-full" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
           </div>
-          <Skeleton className="h-6 w-16 rounded-full" />
+          <Skeleton className="h-6 w-20 rounded-full" />
+          <Skeleton className="h-6 w-20 rounded-full" />
+          <Skeleton className="h-4 w-24" />
+          <div className="flex justify-end">
+            <Skeleton className="size-8 rounded-md" />
+          </div>
         </div>
       ))}
     </div>
@@ -262,17 +334,45 @@ function UsersError({
   );
 }
 
-function formatRoles(role: AdminUser["role"]) {
-  if (!role) {
+function initials(name?: string | null, email?: string | null) {
+  const source = name?.trim() || email?.trim() || "U";
+  const parts = source.split(/\s+/).filter(Boolean);
+
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+
+  return source.slice(0, 2).toUpperCase();
+}
+
+function formatJoinedDate(value?: string | Date | null) {
+  if (!value) {
     return "-";
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(date);
+}
+
+function formatAccess(role: AdminUser["role"]) {
+  if (!role) {
+    return "Guest";
   }
 
   const roles = Array.isArray(role) ? role : [role];
-  const filtered = roles.filter(Boolean);
+  const firstRole = roles.find(Boolean);
 
-  if (!filtered.length) {
-    return "-";
+  if (!firstRole) {
+    return "Guest";
   }
 
-  return filtered.join(", ");
+  return firstRole.charAt(0).toUpperCase() + firstRole.slice(1);
 }
