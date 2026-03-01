@@ -19,7 +19,7 @@ export function NavAdmin({ isAdmin, currentPath }: NavAdminProps) {
     return null;
   }
 
-  const isUsersRoute = currentPath.startsWith("/dashboard/admin");
+  const isUsersRoute = currentPath.startsWith("/admin");
 
   return (
     <SidebarGroup>
@@ -27,7 +27,7 @@ export function NavAdmin({ isAdmin, currentPath }: NavAdminProps) {
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton asChild tooltip="Users" isActive={isUsersRoute}>
-            <Link to="/dashboard/admin/users">
+            <Link to="/admin/users">
               <UsersIcon className="size-4" />
               <span>Users</span>
             </Link>

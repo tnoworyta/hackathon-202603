@@ -11,8 +11,11 @@ export default [
     route("new-password", "modules/Auth/NewPassword.page.tsx")
   ]),
   layout("modules/dashboard/dashboard.layout.tsx", [
-    route("dashboard", "modules/dashboard/dashboard.page.tsx", { index: true }),
-    route("dashboard/admin/users", "modules/dashboard/admin/users.page.tsx")
+    route("dashboard", "modules/dashboard/dashboard.page.tsx", { index: true })
+  ]),
+  layout("modules/admin/admin.layout.tsx", [
+    route("admin", "modules/admin/admin.page.tsx"),
+    route("admin/users", "modules/admin/users.page.tsx")
   ]),
   route("/.well-known/appspecific/com.chrome.devtools.json", "modules/dev/dev-null.tsx")
 ] satisfies RouteConfig;
