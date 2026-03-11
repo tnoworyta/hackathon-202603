@@ -12,7 +12,24 @@ export default [
   ]),
   layout("modules/dashboard/dashboard.layout.tsx", [
     route("dashboard", "modules/dashboard/dashboard.page.tsx", { index: true }),
-    route("dashboard/admin/users", "modules/dashboard/admin/users.page.tsx")
+    route("dashboard/parking", "modules/dashboard/parking/parking.page.tsx"),
+    route(
+      "dashboard/parking/reservations",
+      "modules/dashboard/parking/reservations.page.tsx"
+    ),
+    route("dashboard/admin/users", "modules/dashboard/admin/users.page.tsx"),
+    route(
+      "dashboard/admin/employees",
+      "modules/dashboard/admin/employees.page.tsx"
+    ),
+    route(
+      "dashboard/admin/parking-places",
+      "modules/dashboard/admin/parking-places.page.tsx"
+    ),
+    route(
+      "dashboard/admin/parking-places/:id",
+      "modules/dashboard/admin/parking-place.page.tsx"
+    )
   ]),
   route("/.well-known/appspecific/com.chrome.devtools.json", "modules/dev/dev-null.tsx")
 ] satisfies RouteConfig;

@@ -22,6 +22,13 @@
       "when": 1758287259869,
       "tag": "0002_add_admin_plugin",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1773240325690,
+      "tag": "0003_add_parking_schema",
+      "breakpoints": true
     }
   ]
 }

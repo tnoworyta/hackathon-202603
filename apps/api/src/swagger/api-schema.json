@@ -173,6 +173,435 @@
         ]
       }
     },
+    "/api/v1/parking-places": {
+      "get": {
+        "operationId": "ParkingPlacesController_listPlaces_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPlacesResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      },
+      "post": {
+        "operationId": "ParkingPlacesController_createPlace_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlaceBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePlaceResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      }
+    },
+    "/api/v1/parking-places/{id}": {
+      "get": {
+        "operationId": "ParkingPlacesController_getPlace_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlaceResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      },
+      "patch": {
+        "operationId": "ParkingPlacesController_updatePlace_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlaceBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePlaceResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      },
+      "delete": {
+        "operationId": "ParkingPlacesController_deletePlace_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePlaceResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      }
+    },
+    "/api/v1/parking-places/{id}/spots": {
+      "get": {
+        "operationId": "ParkingPlacesController_listSpots_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSpotsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      },
+      "post": {
+        "operationId": "ParkingPlacesController_createSpot_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSpotBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSpotResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      }
+    },
+    "/api/v1/parking-places/{id}/availability": {
+      "get": {
+        "operationId": "ParkingPlacesController_getAvailability_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAvailabilityResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingPlaces"
+        ]
+      }
+    },
+    "/api/v1/parking-spots/{id}": {
+      "patch": {
+        "operationId": "ParkingSpotsController_updateSpot_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSpotBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateSpotResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingSpots"
+        ]
+      },
+      "delete": {
+        "operationId": "ParkingSpotsController_deleteSpot_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteSpotResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingSpots"
+        ]
+      }
+    },
+    "/api/v1/parking-reservations": {
+      "get": {
+        "operationId": "ParkingReservationsController_listReservations_v1",
+        "parameters": [
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "placeId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListReservationsResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingReservations"
+        ]
+      },
+      "post": {
+        "operationId": "ParkingReservationsController_createReservation_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReservationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateReservationResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingReservations"
+        ]
+      }
+    },
+    "/api/v1/parking-reservations/{id}": {
+      "delete": {
+        "operationId": "ParkingReservationsController_cancelReservation_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelReservationResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ParkingReservations"
+        ]
+      }
+    },
     "/api/v1/test-config/setup": {
       "post": {
         "operationId": "TestConfigController_setup_v1",
@@ -769,6 +1198,563 @@
         ]
       },
       "DeleteUserResponse": {
+        "type": "null"
+      },
+      "ListPlacesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "createdAt": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "address",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "GetPlaceResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "address": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "address",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CreatePlaceBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CreatePlaceResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "address": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "address",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "UpdatePlaceBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdatePlaceResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "address": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "address",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "DeletePlaceResponse": {
+        "type": "null"
+      },
+      "ListSpotsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "placeId": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "isActive": {
+                  "type": "boolean"
+                },
+                "createdAt": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "placeId",
+                "label",
+                "isActive",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CreateSpotBody": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "label"
+        ]
+      },
+      "CreateSpotResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "placeId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "isActive": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "placeId",
+              "label",
+              "isActive",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "GetAvailabilityResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "isActive": {
+                  "type": "boolean"
+                },
+                "available": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "label",
+                "isActive",
+                "available"
+              ]
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "UpdateSpotBody": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateSpotResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "placeId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "isActive": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "placeId",
+              "label",
+              "isActive",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "DeleteSpotResponse": {
+        "type": "null"
+      },
+      "ListReservationsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "spotId": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "startDate": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "endDate": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "spotLabel": {
+                  "type": "string"
+                },
+                "placeId": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "placeName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "spotId",
+                "userId",
+                "startDate",
+                "endDate",
+                "status",
+                "createdAt",
+                "updatedAt",
+                "spotLabel",
+                "placeId",
+                "placeName"
+              ]
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CreateReservationBody": {
+        "type": "object",
+        "properties": {
+          "spotId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date",
+            "type": "string"
+          },
+          "endDate": {
+            "format": "date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "spotId",
+          "startDate",
+          "endDate"
+        ]
+      },
+      "CreateReservationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "spotId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "userId": {
+                "type": "string"
+              },
+              "startDate": {
+                "format": "date",
+                "type": "string"
+              },
+              "endDate": {
+                "format": "date",
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "spotId",
+              "userId",
+              "startDate",
+              "endDate",
+              "status",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CancelReservationResponse": {
         "type": "null"
       }
     }

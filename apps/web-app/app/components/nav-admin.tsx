@@ -1,4 +1,4 @@
-import { Users as UsersIcon } from "lucide-react";
+import { Car, Users as UsersIcon, UserCog } from "lucide-react";
 import { Link } from "react-router";
 
 import {
@@ -19,7 +19,9 @@ export function NavAdmin({ isAdmin, currentPath }: NavAdminProps) {
     return null;
   }
 
-  const isUsersRoute = currentPath.startsWith("/dashboard/admin");
+  const isUsersRoute = currentPath.startsWith("/dashboard/admin/users");
+  const isEmployeesRoute = currentPath.startsWith("/dashboard/admin/employees");
+  const isParkingRoute = currentPath.startsWith("/dashboard/admin/parking-places");
 
   return (
     <SidebarGroup>
@@ -30,6 +32,22 @@ export function NavAdmin({ isAdmin, currentPath }: NavAdminProps) {
             <Link to="/dashboard/admin/users">
               <UsersIcon className="size-4" />
               <span>Users</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild tooltip="Employees" isActive={isEmployeesRoute}>
+            <Link to="/dashboard/admin/employees">
+              <UserCog className="size-4" />
+              <span>Employees</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild tooltip="Parking" isActive={isParkingRoute}>
+            <Link to="/dashboard/admin/parking-places">
+              <Car className="size-4" />
+              <span>Parking</span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

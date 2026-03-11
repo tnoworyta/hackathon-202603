@@ -20,6 +20,7 @@ import { AuthService } from "./auth/auth.service";
 import { buildBetterAuthInstance } from "./lib/better-auth-options";
 import { LoggerMiddleware } from "./logger/logger.middleware";
 import { QueueModule } from "./queue/queue.module";
+import { ParkingModule } from "./parking/parking.module";
 
 import type { DatabasePg } from "./common";
 
@@ -77,6 +78,7 @@ import type { DatabasePg } from "./common";
       },
     }),
     UsersModule,
+    ParkingModule,
     EmailModule,
     FileStorageModule,
     TestConfigModule,

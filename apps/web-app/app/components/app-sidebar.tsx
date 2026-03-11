@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   BookOpen,
   Bot,
+  Car,
   Frame,
   Map,
   PieChart,
@@ -41,6 +42,21 @@ const data = {
     }
   ],
   navMain: [
+    {
+      title: "Parking",
+      url: "#",
+      icon: Car,
+      items: [
+        {
+          title: "Book a spot",
+          url: "/dashboard/parking"
+        },
+        {
+          title: "My reservations",
+          url: "/dashboard/parking/reservations"
+        }
+      ]
+    },
     {
       title: "Playground",
       url: "#",
